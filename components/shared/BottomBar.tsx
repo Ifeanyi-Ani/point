@@ -1,4 +1,55 @@
+'use client';
+import { sidebarLinks } from '@/constants';
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { SignOutButton, SignedIn } from '@clerk/nextjs';
+
 function BottomBar() {
-  return <h1>Bottom bar</h1>;
+  const router = useRouter();
+  const pathname = usePathname();
+  return (
+    <section className="bottombar">
+      <div className="bottombar_container">
+        {sidebarLinks.map(link => {
+          const isActive =
+            (pathname.includes(link.route) && link.route.length > 1) ||
+            pathname === link.route;
+          return (
+            <Link
+              href={link.route}
+              key={link.label}
+              className={`bottombar_link ${isActive && 'bg-primary-500'}`}
+            >
+              <Image
+                src={link.imgURL}
+                alt={link.label}
+                width={24}
+                height={24}
+              />
+              <p className="text-subtle-medium text-light-1 max-sm:hidden">
+                {link.label.split(/\s+/)[0]}
+              </p>
+            </Link>
+          );
+        })}
+      </div>
+      {/* <div className="mt-10 px-6">
+        <SignedIn>
+          <SignOutButton signOutCallback={() => router.push('/sign-in')}>
+            <div className="flex cursor-pointer gap-4 p-4">
+              <Image
+                src="/assests/logout.svg"
+                alt="logout"
+                width={24}
+                height={24}
+              />
+              <p className="text-light-2 max-lg:hidden">logout</p>
+            </div>
+          </SignOutButton>
+        </SignedIn>
+      </div> */}
+    </section>
+  );
 }
 export default BottomBar;
