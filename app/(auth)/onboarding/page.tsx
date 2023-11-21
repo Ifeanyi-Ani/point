@@ -1,4 +1,4 @@
-async function Page(params: type) {
-  return <div>page</div>;
+async function Page() {
+  return <div>Onboarding page</div>;
 }
 export default Page;

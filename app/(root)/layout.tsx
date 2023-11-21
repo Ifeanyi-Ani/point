@@ -1,6 +1,10 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
 import '../globals.css';
+import RightSideBar from '@/components/shared/RightSideBar';
+import TopBar from '@/components/shared/TopBar';
+import LeftSideBar from '@/components/shared/LeftSideBar';
+import BottomBar from '@/components/shared/BottomBar';
 
 export const metadata = {
   title: 'Points',
@@ -15,7 +19,18 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${inter.className} bg-light`}>{children}</body>
+        <body className={`${inter.className} bg-light`}>
+          <TopBar />
+          <main>
+            <LeftSideBar />
+
+            <section className="main-container">
+              <div className="w-full max-w-4xl"></div>
+            </section>
+            <RightSideBar />
+          </main>
+          <BottomBar />
+        </body>
       </html>
     </ClerkProvider>
   );
