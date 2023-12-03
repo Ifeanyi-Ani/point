@@ -19,6 +19,8 @@ import { ChangeEvent, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
+import { updateUser } from "@/lib/actions/user.actions";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   user: {
@@ -35,6 +37,8 @@ interface Props {
 function AccountProfile({ user, btnTitle }: Props) {
   const [photo, setPhoto] = useState<File[]>([]);
   const { startUpload } = useUploadThing("media");
+  const router = useRouter();
+  const pathname = usePathname();
 
   const form = useForm({
     resolver: zodResolver(userValidation),
@@ -47,7 +51,7 @@ function AccountProfile({ user, btnTitle }: Props) {
   });
   const handleImage = (
     e: ChangeEvent<HTMLInputElement>,
-    field: (value: string) => void
+    field: (value: string) => void,
   ) => {
     e.preventDefault();
 
@@ -58,7 +62,7 @@ function AccountProfile({ user, btnTitle }: Props) {
 
       if (!file.type.includes("image")) return;
 
-      fileReader.onload = async event => {
+      fileReader.onload = async (event) => {
         const imgDataUrl = event.target?.result?.toString() || "";
         field(imgDataUrl);
       };
@@ -76,9 +80,16 @@ function AccountProfile({ user, btnTitle }: Props) {
 
       if (imgRes && imgRes[0].url) {
         values.profile_photo = imgRes[0].url;
-        console.log(values);
       }
     }
+    await updateUser({
+      username: values.username,
+      name: values.name,
+      bio: values.bio,
+      image: values.profile_photo,
+      userId: user.id,
+      path: pathname,
+    });
   };
 
   return (
@@ -119,7 +130,7 @@ function AccountProfile({ user, btnTitle }: Props) {
                     accept="image/*"
                     placeholder="Upload a photo"
                     className="account-form_image-input"
-                    onChange={e => handleImage(e, field.onChange)}
+                    onChange={(e) => handleImage(e, field.onChange)}
                   />
                 </FormControl>
               </FormItem>

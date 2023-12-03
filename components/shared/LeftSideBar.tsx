@@ -3,7 +3,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { sidebarLinks } from '../../constants/index';
-import { SignIn, SignOutButton, SignedIn } from '@clerk/nextjs';
+import {  SignOutButton, SignedIn } from '@clerk/nextjs';
 
 function LeftSideBar() {
   const router = useRouter();
@@ -29,6 +29,7 @@ function LeftSideBar() {
               />
               <p className="text-light-1 max-lg:hidden">{link.label}</p>
             </Link>
+            
           );
         })}
       </div>
