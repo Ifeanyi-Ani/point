@@ -13,7 +13,7 @@ async function Page() {
 
   return (
     <>
-      <h1>Create Points</h1>
+      <h1 className="head-text text-light-1">Create Points</h1>
       <PostPoint userId={userInfo._id} />
     </>
   );
