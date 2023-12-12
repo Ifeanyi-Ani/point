@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
   points: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Points",
+      ref: "Point",
     },
   ],
   onboarded: {
@@ -24,6 +24,6 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-const User = mongoose.models.Users || mongoose.model("User", userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default User;
